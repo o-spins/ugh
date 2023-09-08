@@ -1,0 +1,112 @@
+import java.util.Scanner;
+
+public class chargeForParking {
+    private String day;
+    private int arrival;
+    private int departure;
+    private int duration;
+    private float charge;
+    private float rate;
+    private boolean valid;
+    
+    chargeForParking(String day, int arrival, int departure) {
+        this.day = day;
+        this.arrival = arrival;
+        this. departure = departure;
+        
+        switch (this.day) {
+            case "mon":
+                this.rate = (float) 1.25;
+                this.valid = true;
+                break;
+            
+            case "tue":
+                this.rate = (float) 1.25;
+                this.valid = true;
+                break;
+            
+            case "wed":
+                this.rate = (float) 1.25;
+                this.valid = true;
+                break;
+            
+            case "thu":
+                this.rate = (float) 1.25;
+                this.valid = true;
+                break;
+            
+            case "fri":
+                this.rate = (float) 1.25;
+                this.valid = true;
+                break;
+            
+            case "sat":
+                this.rate = (float) 0.50;
+                this.valid = true;
+                break;
+                
+            case "sun":
+                this.rate = (float) 0.50;
+                this.valid = true;
+                break;
+            
+            default:
+                this.valid = false;
+                break;
+            
+        }
+    }
+    
+    void calculateCharge() {
+        int arrivalMins;
+        int departureMins;
+        int intervals;
+        int intRemainder;
+        
+        arrivalMins = (this.arrival % 100) + (this.arrival / 100) * 60;
+        departureMins = (this.departure % 100) + (this.departure / 100) * 60;
+        this.duration = departureMins - arrivalMins;
+        
+        if (this.duration < 0) {
+            System.out.println("Invalid Arrival or Departure Time");
+        } else {
+            intervals = this.duration / 15;
+            intRemainder = this.duration % 15;
+            
+            if (intRemainder != 0)
+            intervals += 1;
+            
+            this.charge = (float)(intervals * this.rate);
+            if (this.charge > 15)
+            this.charge = (float) 15.0;
+        }
+    }
+    
+    public static void main(String args[]) {
+        String day;
+        int arrival;
+        int departure;
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Please enter the day of the week: ");
+        day = sc.nextLine();
+        
+        System.out.print("Please enter the vehicles arrival time: ");
+        arrival = sc.nextInt();
+        
+        System.out.print("Please enter its departure time: ");
+        departure = sc.nextInt();
+        
+        chargeForParking p1 = new chargeForParking(day, arrival, departure);
+        if (p1.valid) {
+            p1.calculateCharge();
+            
+            String capitalizedDayOfWeek = p1.day.substring(0, 1).toUpperCase() + p1.day.substring(1);
+            System.out.printf("Day of week: %s%n", capitalizedDayOfWeek);
+            System.out.printf("Parking duration in minutes: %d, rate: $%.2f%n", p1.duration, p1.rate);
+            System.out.printf("Amount charged: $%.2f%n", p1.charge);
+        } else {
+            System.out.println("Invalid day");
+        }
+    }
+}
